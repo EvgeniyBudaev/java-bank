@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: keycloak-service
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${app.keycloak.serverUrl}/realms/${app.keycloak.realm}
+
+server:
+  port: ${KEYCLOAK_SERVICE_PORT}
+
+logging:
+  level:
+    org.springframework: ${KEYCLOAK_SERVICE_LOGGER_LEVEL}
+
+app:
+  keycloak:
+    admin:
+      clientId: ${KEYCLOAK_CLIENT_ID}
+      clientSecret: ${KEYCLOAK_CLIENT_SECRET}
+    realm: ${KEYCLOAK_REALM}
+    serverUrl: ${KEYCLOAK_BASE_URL}
+    defaultUserGroup: ${KEYCLOAK_DEFAULT_USER_GROUP}
+    defaultUserRole: ${KEYCLOAK_DEFAULT_USER_ROLE}
+    defaultUserRoleType: ${KEYCLOAK_DEFAULT_USER_ROLE_TYPE}

@@ -1,0 +1,52 @@
+version: "3.8"
+
+services:
+  zookeeper:
+    container_name: zookeeper
+    image: zookeeper
+    ports:
+      - "2181:2181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+
+  kafka-ui:
+    container_name: kafka-ui
+    image: provectuslabs/kafka-ui:latest
+    ports:
+      - "127.0.0.1:8080:8080"
+    environment:
+      - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka-1:9092
+      - KAFKA_CLUSTERS_0_ZOOKEEPER:zookeeper:2181
+
+  kafka-1:
+    container_name: kafka-1
+    image: wurstmeister/kafka
+    ports:
+      - "127.0.0.1:10095:9094" # for localhost
+    environment:
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+      - KAFKA_INTER_BROKER_LISTENER_NAME=INTERNAL
+      - KAFKA_LISTENERS=INTERNAL://kafka-1:9092,OUTSIDE://kafka-1:9094
+      - KAFKA_ADVERTISED_LISTENERS=INTERNAL://kafka-1:9092,OUTSIDE://127.0.0.1:10095 # for localhost
+      - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=INTERNAL:PLAINTEXT,OUTSIDE:PLAINTEXT
+      - KAFKA_LOG_DIRS=/kafka/logs
+      - KAFKA_BROKER_ID=500
+      - KAFKA_offsets_topic_replication_factor=1
+
+  keycloak-service:
+    build:
+      context: ./modules/keycloak-service
+      dockerfile: Dockerfile
+    ports:
+      - "${KEYCLOAK_SERVICE_PORT}:${KEYCLOAK_SERVICE_PORT}"
+    environment:
+      KEYCLOAK_SERVICE_PORT: ${KEYCLOAK_SERVICE_PORT}
+      KEYCLOAK_SERVICE_LOGGER_LEVEL: ${KEYCLOAK_SERVICE_LOGGER_LEVEL}
+      KEYCLOAK_BASE_URL: ${KEYCLOAK_BASE_URL}
+      KEYCLOAK_REALM: ${KEYCLOAK_REALM}
+      KEYCLOAK_CLIENT_ID: ${KEYCLOAK_CLIENT_ID}
+      KEYCLOAK_CLIENT_SECRET: ${KEYCLOAK_CLIENT_SECRET}
+      KEYCLOAK_REALM_RS256_PUBLIC_KEY: ${KEYCLOAK_REALM_RS256_PUBLIC_KEY}
+      KEYCLOAK_DEFAULT_USER_GROUP: ${KEYCLOAK_DEFAULT_USER_GROUP}
+      KEYCLOAK_DEFAULT_USER_ROLE: ${KEYCLOAK_DEFAULT_USER_ROLE}
+      KEYCLOAK_DEFAULT_USER_ROLE_TYPE: ${KEYCLOAK_DEFAULT_USER_ROLE_TYPE}

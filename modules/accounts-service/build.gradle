@@ -1,0 +1,53 @@
+plugins {
+    id 'java'
+    alias(libs.plugins.spring.boot)
+    alias(libs.plugins.spring.boot.dependency.management)
+}
+
+group = 'com'
+version = '0.0.1-SNAPSHOT'
+description = 'accounts-service'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Spring Boot
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    // Flyway
+    implementation libs.flyway.core
+    implementation libs.flyway.postgresql
+    implementation libs.flyway.plugin
+    // Lombok
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    // Mapstruct
+    implementation libs.mapstruct
+    annotationProcessor libs.mapstruct.processor
+    // Postgresql
+    implementation("org.postgresql:postgresql")
+    runtimeOnly 'org.postgresql:postgresql'
+    // Aspect
+    implementation libs.aspectj.tools
+    // Spring Cloud
+    implementation libs.spring.cloud.consul.discovery
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}

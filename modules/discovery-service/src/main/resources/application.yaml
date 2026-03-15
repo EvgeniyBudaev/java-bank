@@ -1,0 +1,36 @@
+spring:
+  application:
+    name: discovery-service
+  config:
+    import: "optional:consul:"
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        enabled: true
+        register: true
+        instance-id: "${spring.application.name}:${server.port}:${random.value}"
+        healthCheckPath: /org/info
+        healthCheckInterval: 30s
+
+consul:
+  demo:
+    org:
+      name: Test organization
+      address: Test address
+      phone: 8(800)-000-00-00
+
+server:
+  port: ${DISCOVERY_SERVICE_PORT}
+
+logging:
+  level:
+    org.springframework: ${DISCOVERY_SERVICE_LOGGER_LEVEL}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+

@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: discovery-service
+  config:
+    import: "" # Отключаем импорт из Consul
+  cloud:
+    consul:
+      enabled: false
+      discovery:
+        enabled: false
+        register: false
+        instance-id: "${spring.application.name}:${server.port}:${random.value}"
+        healthCheckPath: /org/info
+        healthCheckInterval: 30s
+
+consul:
+  demo:
+    org:
+      name: Test organization
+      address: Test adress
+      phone: 8(800)-000-00-00
+
+server:
+  port: 8084
+
+logging:
+  level:
+    org.springframework: INFO
