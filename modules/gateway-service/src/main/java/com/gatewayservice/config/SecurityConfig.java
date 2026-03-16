@@ -28,15 +28,13 @@ public class SecurityConfig {
                 .authorizeExchange(exchanges -> exchanges
                         // Публичный доступ
                         .pathMatchers("/actuator/**").permitAll()
-
                         // Доступно только для SCOPE_accounts.write (POST запросы)
                         .pathMatchers(HttpMethod.POST, "/api/v1/accounts/**")
                         .hasAuthority("SCOPE_accounts.write")
-
                         // Доступно только для SCOPE_accounts.read (GET и остальные)
-                        .pathMatchers("/api/v1/accounts/**")
-                        .hasAuthority("SCOPE_accounts.read")
-
+                        .pathMatchers("/api/v1/accounts/**").hasAuthority("SCOPE_accounts.read")
+                        // Доступно только для SCOPE_cash.write (GET и остальные)
+                        .pathMatchers("/api/v1/cash/**").hasAuthority("SCOPE_cash.write")
                         // Остальные запросы требуют аутентификации
                         .anyExchange().authenticated()
                 )

@@ -1,4 +1,4 @@
-package com.accountsservice.shared.exception;
+package com.cashservice.exception;
 
 import org.springframework.http.HttpStatus;
 

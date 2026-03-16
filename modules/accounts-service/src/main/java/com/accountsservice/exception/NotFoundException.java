@@ -1,4 +1,4 @@
-package com.accountsservice.shared.exception;
+package com.accountsservice.exception;
 
 import org.springframework.http.HttpStatus;
 

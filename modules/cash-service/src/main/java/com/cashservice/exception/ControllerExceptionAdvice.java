@@ -1,10 +1,8 @@
-package com.accountsservice.shared.exception;
+package com.cashservice.exception;
 
-import com.accountsservice.entity.ErrorEntity;
+import com.cashservice.entity.ErrorEntity;
 import jakarta.validation.ConstraintViolationException;
 import org.apache.logging.log4j.util.InternalException;
-import org.postgresql.util.PSQLException;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -17,7 +15,13 @@ import java.time.Instant;
 
 @RestControllerAdvice
 public class ControllerExceptionAdvice {
-    private static final String SERVICE_NAME = "accounts-service";
+    private static final String SERVICE_NAME = "cash-service";
+
+    @ExceptionHandler(InsufficientFundsException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorEntity handleInsufficientFundsException(InsufficientFundsException e) {
+        return error(e);
+    }
 
     @ExceptionHandler(AuthenticationException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
@@ -43,11 +47,11 @@ public class ControllerExceptionAdvice {
         return error(e, "internal server error", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @ExceptionHandler(PSQLException.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ErrorEntity handleInternalServerException(PSQLException e) {
-        return error(e, "database error occurred", HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+//    @ExceptionHandler(PSQLException.class)
+//    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+//    public ErrorEntity handleInternalServerException(PSQLException e) {
+//        return error(e, "database error occurred", HttpStatus.INTERNAL_SERVER_ERROR);
+//    }
 
     @ExceptionHandler(BadRequestException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -91,14 +95,14 @@ public class ControllerExceptionAdvice {
         return error(e);
     }
 
-    @ExceptionHandler(exception = {
-//            EntityNotFoundException.class, // for JPA
-            EmptyResultDataAccessException.class
-    })
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorEntity handleNotFoundException(Exception e) {
-        return error(e, "not found", HttpStatus.NOT_FOUND);
-    }
+//    @ExceptionHandler(exception = {
+////            EntityNotFoundException.class, // for JPA
+//            EmptyResultDataAccessException.class
+//    })
+//    @ResponseStatus(HttpStatus.NOT_FOUND)
+//    public ErrorEntity handleNotFoundException(Exception e) {
+//        return error(e, "not found", HttpStatus.NOT_FOUND);
+//    }
 
     // Дополнительно: ловим исключения от Keycloak Client (JAX-RS), если они просочатся из сервиса
 //    @ExceptionHandler(jakarta.ws.rs.WebApplicationException.class)

@@ -1,0 +1,37 @@
+spring:
+  application:
+    name: cash-service
+  config:
+    import: "" # Отключаем импорт из Consul
+  cloud:
+    consul:
+      enabled: false
+      discovery:
+        enabled: false
+        register: false
+        instance-id: "${spring.application.name}:${server.port}:${random.value}"
+        healthCheckPath: /actuator/health
+        healthCheckInterval: 30s
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/myrealm
+
+server:
+  port: 8086
+
+logging:
+  level:
+    org.springframework: INFO
+
+app:
+  keycloak:
+    realm: gravity
+    serverUrl: http://localhost:8080
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info

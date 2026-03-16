@@ -12,21 +12,22 @@ spring:
         register: true
         instance-id: "${spring.application.name}:${server.port}:${random.value}"
         health-check-path: /actuator/health
-        health-check-interval: 10s
+        health-check-interval: 5s
     gateway:
       server:
         webflux:
           routes:
             - id: accounts-service
               uri: lb://accounts-service
-#              uri: http://localhost:8083
               predicates:
                 - Path=/api/v1/accounts/**
-              filters:
-#                - StripPrefix=1
+            - id: cash-service
+              uri: lb://cash-service
+              predicates:
+                - Path=/api/v1/cash/**
           discovery:
             locator:
-              enabled: false # Автоматическое создание маршрутов на основе сервисов, зарегистрированных в реестре
+              enabled: true # Автоматическое создание маршрутов на основе сервисов, зарегистрированных в реестре
               lower-case-service-id: true # Приводит имя сервиса в URL к нижнему регистру
   mvc:
     pathmatch:

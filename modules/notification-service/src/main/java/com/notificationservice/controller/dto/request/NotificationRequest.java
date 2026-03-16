@@ -1,0 +1,17 @@
+package com.notificationservice.controller.dto.request;
+
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
+
+import java.math.BigDecimal;
+import java.time.Instant;
+import java.util.UUID;
+
+public record NotificationRequest(
+        @NotNull NotificationType type,
+        @PositiveOrZero BigDecimal amount,
+        @NotNull UUID actorUuid,
+        UUID targetUuid,
+        @NotNull Instant occurredAt
+) {
+}

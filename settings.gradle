@@ -4,6 +4,8 @@ include 'modules:discovery-service'
 include 'modules:keycloak-service'
 include 'modules:gateway-service'
 include 'modules:accounts-service'
+include 'modules:notification-service'
+include 'modules:cash-service'
 
 dependencyResolutionManagement {
     versionCatalogs {

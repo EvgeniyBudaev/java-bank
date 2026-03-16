@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class LoggingAdvice {
 
-    @Around("@annotation(com.aggregation.aspect.LogMethodExecutionTime)")
+    @Around("@annotation(com.accountsservice.aspect.LogMethodExecutionTime)")
     public Object logMethodExecutionTime(ProceedingJoinPoint joinPoint) throws Throwable {
         log.info("Method [{}] requested with arguments:\n{}", joinPoint.getSignature().getName(),
                 joinPoint.getArgs());

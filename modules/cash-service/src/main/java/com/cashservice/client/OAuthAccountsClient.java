@@ -1,0 +1,36 @@
+package com.cashservice.client;
+
+import com.cashservice.controller.response.ResponseAccountDto;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestClient;
+
+import java.math.BigDecimal;
+import java.util.UUID;
+
+@Component
+@RequiredArgsConstructor
+public class OAuthAccountsClient implements AccountsClient {
+    private final RestClient accountsRestClient;
+
+    @Override
+    public ResponseAccountDto deposit(UUID userId, BigDecimal amount) {
+        return accountsRestClient.post()
+                .uri("/api/v1/accounts/{userId}/deposit", userId)
+                .body(new AmountDto(amount))
+                .retrieve()
+                .body(ResponseAccountDto.class);
+    }
+
+    @Override
+    public ResponseAccountDto withdraw(UUID userId, BigDecimal amount) {
+        return accountsRestClient.post()
+                .uri("/api/v1/accounts/{userId}/withdraw", userId)
+                .body(new AmountDto(amount))
+                .retrieve()
+                .body(ResponseAccountDto.class);
+    }
+
+    private record AmountDto(BigDecimal amount) {
+    }
+}

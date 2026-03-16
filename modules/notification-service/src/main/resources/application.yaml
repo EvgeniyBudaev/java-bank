@@ -1,0 +1,38 @@
+spring:
+  application:
+    name: notification-service
+  config:
+    import: "optional:consul:"
+  cloud:
+    consul:
+      host: ${CONSUL_HOST:localhost}
+      port: ${CONSUL_PORT:8500}
+      discovery:
+        enabled: true
+        register: true
+        instance-id: "${spring.application.name}:${server.port}:${random.value}"
+        health-check-path: /actuator/health
+        health-check-interval: 10s
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${app.keycloak.serverUrl}/realms/${app.keycloak.realm}
+
+server:
+  port: ${NOTIFICATION_SERVICE_PORT}
+
+logging:
+  level:
+    org.springframework: ${NOTIFICATION_SERVICE_LOGGER_LEVEL}
+
+app:
+  keycloak:
+    realm: ${NOTIFICATION_SERVICE_KEYCLOAK_REALM}
+    serverUrl: ${NOTIFICATION_SERVICE_KEYCLOAK_BASE_URL}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info

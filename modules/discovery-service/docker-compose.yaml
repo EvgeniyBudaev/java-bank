@@ -1,0 +1,10 @@
+version: "3.8"
+
+services:
+  discovery-service:
+    build: .
+    ports:
+      - "${DISCOVERY_SERVICE_PORT}:${DISCOVERY_SERVICE_PORT}"
+    environment:
+      DISCOVERY_SERVICE_PORT: ${DISCOVERY_SERVICE_PORT}
+      DISCOVERY_SERVICE_LOGGER_LEVEL: ${DISCOVERY_SERVICE_LOGGER_LEVEL}
