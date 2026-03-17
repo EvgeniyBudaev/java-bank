@@ -25,6 +25,10 @@ spring:
               uri: lb://cash-service
               predicates:
                 - Path=/api/v1/cash/**
+            - id: transfer-service
+              uri: lb://transfer-service
+              predicates:
+                - Path=/api/v1/transfer/**
           discovery:
             locator:
               enabled: true # Автоматическое создание маршрутов на основе сервисов, зарегистрированных в реестре

@@ -35,6 +35,8 @@ public class SecurityConfig {
                         .pathMatchers("/api/v1/accounts/**").hasAuthority("SCOPE_accounts.read")
                         // Доступно только для SCOPE_cash.write (GET и остальные)
                         .pathMatchers("/api/v1/cash/**").hasAuthority("SCOPE_cash.write")
+                        // Доступно только для SCOPE_transfer.write (GET и остальные)
+                        .pathMatchers("/api/v1/transfer/**").hasAuthority("SCOPE_transfer.write")
                         // Остальные запросы требуют аутентификации
                         .anyExchange().authenticated()
                 )

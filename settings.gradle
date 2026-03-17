@@ -6,6 +6,7 @@ include 'modules:gateway-service'
 include 'modules:accounts-service'
 include 'modules:notification-service'
 include 'modules:cash-service'
+include 'modules:transfer-service'
 
 dependencyResolutionManagement {
     versionCatalogs {
@@ -22,6 +23,8 @@ dependencyResolutionManagement {
             version('keycloak', '24.0.2')
             version('spring-cloud', '2025.0.1')
             version('spring-cloud-consul', '4.3.1')
+            version('spring-cloud-circuitbreaker', '3.3.1')
+            version('spring-cloud-loadbalancer', '4.3.1')
 
             plugin('spring-boot', 'org.springframework.boot')
                 .version('3.5.7')
@@ -70,6 +73,12 @@ dependencyResolutionManagement {
                     .versionRef('spring-cloud-consul')
             library('spring-cloud-gateway', 'org.springframework.cloud', 'spring-cloud-starter-gateway')
                     .versionRef('spring-cloud')
+            library('spring-cloud-circuitbreaker-resilience4j',
+                    'org.springframework.cloud',
+                    'spring-cloud-starter-circuitbreaker-resilience4j')
+                    .versionRef('spring-cloud-circuitbreaker')
+            library('spring-cloud-loadbalancer', 'org.springframework.cloud', 'spring-cloud-starter-loadbalancer')
+                    .versionRef('spring-cloud-loadbalancer')
         }
     }
 }

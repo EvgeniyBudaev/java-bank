@@ -16,4 +16,6 @@ public interface AccountService {
     ResponseAccountDto deposit(UUID userId, BigDecimal amount);
 
     ResponseAccountDto withdraw(UUID userId, BigDecimal amount);
+
+    ResponseAccountDto refund(UUID authenticatedUserId, UUID targetUserId, BigDecimal amount);
 }

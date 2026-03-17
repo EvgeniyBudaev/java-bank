@@ -87,4 +87,18 @@ public class AccountController {
         log.info("AccountController withdraw: uuid={}, dto={}", uuid, dto);
         return ResponseEntity.ok(accountService.withdraw(uuid, dto.amount()));
     }
+
+    /**
+     * Снять средства с баланса (используется Cash Service и Transfer Service).
+     */
+    @PostMapping("/{uuid}/refund")
+    public ResponseEntity<ResponseAccountDto> refund(
+            @PathVariable UUID uuid,
+            @RequestBody RequestBalanceChangeDto dto,
+            @AuthenticationPrincipal Jwt jwt
+    ) {
+        log.info("AccountController refund: uuid={}, dto={}", uuid, dto);
+        UUID authenticatedUserId = UUID.fromString(jwt.getSubject());
+        return ResponseEntity.ok(accountService.refund(authenticatedUserId, uuid, dto.amount()));
+    }
 }

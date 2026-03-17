@@ -36,7 +36,8 @@ dependencies {
     implementation libs.aspectj.tools
     // Spring Cloud
     implementation libs.spring.cloud.consul.discovery
-    implementation 'org.springframework.cloud:spring-cloud-starter-loadbalancer'
+    implementation libs.spring.cloud.loadbalancer
+    implementation libs.spring.cloud.circuitbreaker.resilience4j
 }
 
 tasks.named('test') {

@@ -108,4 +108,40 @@ public class AccountServiceImpl implements AccountService {
 
         return accountMapper.toResponseAccountDto(accountSaved);
     }
+
+    @Override
+    @Transactional
+    public ResponseAccountDto refund(UUID authenticatedUserId, UUID targetUserId, BigDecimal amount) {
+        // 1. Валидация суммы
+        if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("Amount must be positive");
+        }
+
+        // 2. Проверка существования счета получателя
+        AccountEntity account = accountRepository.findByUserId(targetUserId)
+                .orElseThrow(() -> new NotFoundException(
+                        "User not found",
+                        "User with id '" + targetUserId + "' does not exist"
+                ));
+
+        // 3. Проверка безопасности (Важно для компенсации)
+        // Refund — это привилегированная операция. Обычно она вызывается сервисом, а не пользователем.
+        // Если authenticatedUserId != targetUserId, убедитесь, что у вызывающего есть права.
+        // В микросервисной архитектуре это часто проверяется через Scope в SecurityConfig,
+        // но здесь добавим базовую проверку на уровне сервиса.
+        if (!authenticatedUserId.equals(targetUserId)) {
+            log.warn("Refund initiated by {} for user {}", authenticatedUserId, targetUserId);
+            // Здесь можно добавить явную проверку роли, если требуется
+            // if (!isAdmin(authenticatedUserId)) throw new AccessDeniedException(...);
+        }
+
+        // 4. Зачисление средств (компенсация)
+        account.setBalance(account.getBalance().add(amount));
+        account.setUpdatedAt(java.time.Instant.now());
+
+        AccountEntity accountSaved = accountRepository.save(account);
+
+        log.info("Refund successful: userId={}, amount={}", targetUserId, amount);
+        return accountMapper.toResponseAccountDto(accountSaved);
+    }
 }

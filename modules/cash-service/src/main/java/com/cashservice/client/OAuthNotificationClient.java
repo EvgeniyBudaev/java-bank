@@ -11,9 +11,10 @@ public class OAuthNotificationClient implements NotificationClient {
     private final RestClient notificationRestClient;
 
     @Override
-    public void send(NotificationEvent event) {
+    public void send(NotificationEvent event, String token) {
         notificationRestClient.post()
                 .uri("/api/v1/notifications")
+                .header("Authorization", "Bearer " + token)
                 .body(event)
                 .retrieve()
                 .toBodilessEntity();

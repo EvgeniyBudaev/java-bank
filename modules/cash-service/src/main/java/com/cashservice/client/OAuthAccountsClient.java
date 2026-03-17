@@ -14,18 +14,20 @@ public class OAuthAccountsClient implements AccountsClient {
     private final RestClient accountsRestClient;
 
     @Override
-    public ResponseAccountDto deposit(UUID userId, BigDecimal amount) {
+    public ResponseAccountDto deposit(UUID userId, BigDecimal amount, String token) {
         return accountsRestClient.post()
                 .uri("/api/v1/accounts/{userId}/deposit", userId)
+                .header("Authorization", "Bearer " + token)
                 .body(new AmountDto(amount))
                 .retrieve()
                 .body(ResponseAccountDto.class);
     }
 
     @Override
-    public ResponseAccountDto withdraw(UUID userId, BigDecimal amount) {
+    public ResponseAccountDto withdraw(UUID userId, BigDecimal amount, String token) {
         return accountsRestClient.post()
                 .uri("/api/v1/accounts/{userId}/withdraw", userId)
+                .header("Authorization", "Bearer " + token)
                 .body(new AmountDto(amount))
                 .retrieve()
                 .body(ResponseAccountDto.class);
