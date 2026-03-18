@@ -51,8 +51,8 @@ logging:
 
 app:
   keycloak:
-    realm: ${GATEWAY_SERVICE_KEYCLOAK_REALM}
-    serverUrl: ${GATEWAY_SERVICE_KEYCLOAK_BASE_URL}
+    realm: ${KEYCLOAK_REALM}
+    serverUrl: ${KEYCLOAK_BASE_URL}
 
 management:
   endpoints:

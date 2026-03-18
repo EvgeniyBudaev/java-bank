@@ -19,6 +19,7 @@ repositories {
 }
 
 dependencies {
+    implementation project(':modules:common-service')
     // Spring Boot
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -33,15 +34,15 @@ dependencies {
     implementation libs.flyway.core
     implementation libs.flyway.postgresql
     implementation libs.flyway.plugin
+    // Postgresql
+    implementation("org.postgresql:postgresql")
+    runtimeOnly 'org.postgresql:postgresql'
     // Lombok
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     // Mapstruct
     implementation libs.mapstruct
     annotationProcessor libs.mapstruct.processor
-    // Postgresql
-    implementation("org.postgresql:postgresql")
-    runtimeOnly 'org.postgresql:postgresql'
     // Aspect
     implementation libs.aspectj.tools
     // Spring Cloud

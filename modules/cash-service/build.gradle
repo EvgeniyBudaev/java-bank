@@ -19,6 +19,7 @@ repositories {
 }
 
 dependencies {
+    implementation project(':modules:common-service')
     // Spring Boot
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
@@ -29,6 +30,9 @@ dependencies {
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    // Postgresql
+    implementation("org.postgresql:postgresql")
+    runtimeOnly 'org.postgresql:postgresql'
     // Lombok
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'

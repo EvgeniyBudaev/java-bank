@@ -1,0 +1,35 @@
+plugins {
+    id 'java-library'
+    alias(libs.plugins.spring.boot)
+    alias(libs.plugins.spring.boot.dependency.management)
+}
+
+group = 'com'
+version = '0.0.1-SNAPSHOT'
+description = 'common-service'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Spring Boot
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+}
+
+// Отключаем создание исполняемого JAR для библиотеки
+bootJar {
+    enabled = false
+}
+
+// Включаем обычный JAR и добавляем метаданные
+jar {
+    enabled = true
+}

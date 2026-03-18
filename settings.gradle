@@ -1,5 +1,6 @@
 rootProject.name = 'java-bank'
 
+include 'modules:common-service'
 include 'modules:discovery-service'
 include 'modules:keycloak-service'
 include 'modules:gateway-service'

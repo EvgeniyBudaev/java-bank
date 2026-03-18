@@ -28,8 +28,8 @@ logging:
 
 app:
   keycloak:
-    realm: ${TRANSFER_SERVICE_KEYCLOAK_REALM}
-    serverUrl: ${TRANSFER_SERVICE_KEYCLOAK_BASE_URL}
+    realm: ${KEYCLOAK_REALM}
+    serverUrl: ${KEYCLOAK_BASE_URL}
 
 management:
   endpoints:
