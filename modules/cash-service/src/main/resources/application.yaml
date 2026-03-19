@@ -1,6 +1,8 @@
 spring:
   application:
     name: cash-service
+    outbox:
+      limit: 10 # Максимум записей за одну итерацию
   config:
     import: "optional:consul:"
   cloud:
@@ -13,11 +15,38 @@ spring:
         instance-id: "${spring.application.name}:${server.port}:${random.value}"
         health-check-path: /actuator/health
         health-check-interval: 10s
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+    driverClassName: org.postgresql.Driver
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
   security:
     oauth2:
       resourceserver:
         jwt:
           issuer-uri: ${app.keycloak.serverUrl}/realms/${app.keycloak.realm}
+      client:
+        provider:
+          cash-service:
+            issuer-uri: ${app.keycloak.serverUrl}/realms/${app.keycloak.realm}
+            token-uri: ${app.keycloak.serverUrl}/realms/${app.keycloak.realm}/protocol/openid-connect/token
+        registration:
+          cash-service:
+            client-id: ${KEYCLOAK_CLIENT_ID}
+            client-secret: ${KEYCLOAK_CLIENT_SECRET}
+            authorization-grant-type: client_credentials
+            scope: openid
 
 server:
   port: ${CASH_SERVICE_PORT}
