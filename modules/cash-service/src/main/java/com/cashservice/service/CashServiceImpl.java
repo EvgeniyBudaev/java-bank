@@ -44,9 +44,8 @@ public class CashServiceImpl implements CashService {
                 "accounts-deposit",
                 () -> accountsClient.deposit(dto.userId(), dto.amount(), token)
         );
-        System.out.println("result = " + result.userId());
 
-        // Сохраняем событие в Outbox (в той же транзакции!)
+        // Сохраняем событие в Outbox таблицу
         saveToOutbox(
                 NotificationType.CASH_IN,
                 dto.amount(),
@@ -71,7 +70,7 @@ public class CashServiceImpl implements CashService {
                 () -> accountsClient.withdraw(dto.userId(), dto.amount(), token)
         );
 
-        // Сохраняем событие в Outbox (в той же транзакции!)
+        // Сохраняем событие в Outbox таблицу
         saveToOutbox(
                 NotificationType.CASH_OUT,
                 dto.amount(),

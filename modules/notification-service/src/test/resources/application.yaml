@@ -33,6 +33,11 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: http://localhost:8080/realms/myrealm
+  task:
+    scheduling:
+      pool:
+        size: 5
+      thread-name-prefix: scheduler-
 
 server:
   port: 8085
@@ -51,3 +56,8 @@ management:
     web:
       exposure:
         include: health,info
+
+notification:
+  idempotency:
+    retention-days: 0
+    retention-minutes: 1
