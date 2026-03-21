@@ -12,6 +12,22 @@ spring:
         instance-id: "${spring.application.name}:${server.port}:${random.value}"
         healthCheckPath: /actuator/health
         healthCheckInterval: 30s
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: root
+    driverClassName: org.postgresql.Driver
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
   security:
     oauth2:
       resourceserver:

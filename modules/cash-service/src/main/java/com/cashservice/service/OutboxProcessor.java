@@ -46,10 +46,12 @@ public class OutboxProcessor {
         for (CashOutboxEntity entry : outboxEntries) {
             try {
                 String token = tokenProvider.getServiceToken();
+                String idempotencyKey = String.valueOf(entry.getId());
 
                 // Отправляем уведомление с CircuitBreaker
                 boolean success = sendNotification(
                         new NotificationEvent(
+                                idempotencyKey,
                                 entry.getType(),
                                 entry.getAmount(),
                                 entry.getUserId(),
@@ -62,7 +64,7 @@ public class OutboxProcessor {
                 // Удаляем запись ТОЛЬКО если отправка успешна
                 if (success) {
                     outboxRepository.deleteById(entry.getId());
-                    log.debug("Successfully processed and deleted outbox entry: id={}, type={}",
+                    log.info("Successfully processed and deleted outbox entry: id={}, type={}",
                             entry.getId(), entry.getType());
                 } else {
                     log.warn("Notification failed, keeping outbox entry for retry: id={}, type={}",

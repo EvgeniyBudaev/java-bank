@@ -17,6 +17,15 @@ CREATE TABLE IF NOT EXISTS cash_outbox
     processed  BOOLEAN        NOT NULL DEFAULT FALSE
 );
 
+CREATE TABLE IF NOT EXISTS notification_idempotency_keys
+(
+    idempotency_key VARCHAR(255) PRIMARY KEY,
+    created_at      TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+    -- В продакшене стоит добавить задачу для очистки старых записей (TTL)
+);
+
 -- Индекс для ускорения выборки необработанных записей
--- CREATE INDEX IF NOT EXISTS idx_cash_outbox_processed
---     ON cash_outbox(processed, created_at);
+-- CREATE INDEX IF NOT EXISTS idx_cash_outbox_processed ON cash_outbox(processed, created_at);
+
+-- Индекс для ускорения выборки по ключу
+-- CREATE INDEX IF NOT EXISTS idx_idempotency_created_at ON notification_idempotency_keys(created_at);

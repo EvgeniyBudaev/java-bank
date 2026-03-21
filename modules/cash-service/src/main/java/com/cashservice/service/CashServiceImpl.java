@@ -44,6 +44,7 @@ public class CashServiceImpl implements CashService {
                 "accounts-deposit",
                 () -> accountsClient.deposit(dto.userId(), dto.amount(), token)
         );
+        System.out.println("result = " + result.userId());
 
         // Сохраняем событие в Outbox (в той же транзакции!)
         saveToOutbox(
@@ -98,10 +99,8 @@ public class CashServiceImpl implements CashService {
         outbox.setAmount(amount);
         outbox.setCreatedAt(occurredAt);
         outbox.setProcessed(false);
-
         outboxRepository.save(outbox);
-
-        log.debug("Saved outbox event: type={}, userId={}, amount={}", type, userId, amount);
+        log.info("Saved outbox event: type={}, userId={}, amount={}", type, userId, amount);
     }
 
     /**
