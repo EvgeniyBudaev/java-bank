@@ -1,4 +1,4 @@
-package com.cashservice.service;
+package com.accountsservice.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.oauth2.client.AuthorizedClientServiceOAuth2AuthorizedClientManager;
@@ -28,8 +28,8 @@ public class ServiceTokenProvider {
     public String getServiceToken() {
         try {
             var request = org.springframework.security.oauth2.client.OAuth2AuthorizeRequest
-                    .withClientRegistrationId("cash-service")
-                    .principal("cash-service")
+                    .withClientRegistrationId("accounts-service")
+                    .principal("accounts-service")
                     .build();
 
             var authorizedClient = manager.authorize(request);

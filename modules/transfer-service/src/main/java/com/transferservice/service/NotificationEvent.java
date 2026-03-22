@@ -8,6 +8,7 @@ import java.time.Instant;
 import java.util.UUID;
 
 public record NotificationEvent(
+        @NotNull String idempotencyKey,
         @NotNull NotificationType type,
         @PositiveOrZero BigDecimal amount,
         @NotNull UUID actorUuid,

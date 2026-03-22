@@ -59,13 +59,15 @@ public class TransferServiceImpl implements TransferService {
             // Паттерн Saga (Компенсация)
             try {
                 // Зачисление средств на счёт получателя
-                executeWithCircuitBreaker(
+                ResponseAccountDto r = executeWithCircuitBreaker(
                         "accounts-deposit",
                         () -> accountsClient.deposit(dto.getToUserId(), dto.getAmount(), token)
                 );
 
                 // Отправка уведомления ТОЛЬКО ПОСЛЕ успешного завершения обеих операций
+                String idempotencyKey = String.valueOf(r.id()); // TODO: нужно id в Outbox таблице. Это для примера компенсационной транзакциию. По хороше нужно сделать в accounts-service
                 sendNotification(new NotificationEvent(
+                        idempotencyKey,
                         NotificationType.TRANSFER,
                         dto.getAmount(),
                         fromUserId,

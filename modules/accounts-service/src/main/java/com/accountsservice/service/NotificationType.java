@@ -1,4 +1,4 @@
-package com.cashservice.service;
+package com.accountsservice.service;
 
 public enum NotificationType {
     CASH_IN,

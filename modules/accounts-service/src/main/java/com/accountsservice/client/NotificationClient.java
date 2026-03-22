@@ -1,6 +1,6 @@
-package com.cashservice.client;
+package com.accountsservice.client;
 
-import com.cashservice.service.NotificationEvent;
+import com.accountsservice.service.NotificationEvent;
 
 public interface NotificationClient {
     void send(NotificationEvent event, String token);

@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS accounts
     updated_at TIMESTAMP      NULL
 );
 
-CREATE TABLE IF NOT EXISTS cash_outbox
+CREATE TABLE IF NOT EXISTS accounts_outbox
 (
     id         BIGSERIAL PRIMARY KEY,
     type       VARCHAR(255)   NOT NULL,
@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS notification_idempotency_keys
 );
 
 -- Индекс для ускорения выборки необработанных записей
--- CREATE INDEX IF NOT EXISTS idx_cash_outbox_processed ON cash_outbox(processed, created_at);
+-- CREATE INDEX IF NOT EXISTS idx_accounts_outbox_processed ON accounts_outbox(processed, created_at);
 
 -- Индекс для ускорения выборки по ключу
 -- CREATE INDEX IF NOT EXISTS idx_idempotency_created_at ON notification_idempotency_keys(created_at);

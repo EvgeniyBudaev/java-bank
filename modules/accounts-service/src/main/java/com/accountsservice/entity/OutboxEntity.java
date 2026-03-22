@@ -1,6 +1,6 @@
-package com.cashservice.entity;
+package com.accountsservice.entity;
 
-import com.cashservice.service.NotificationType;
+import com.accountsservice.service.NotificationType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -14,18 +14,18 @@ import java.time.Instant;
 import java.util.UUID;
 
 /**
- * Модель для таблицы cash_outbox.
+ * Модель для таблицы accounts_outbox.
  */
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "cash_outbox")
-public class CashOutboxEntity {
+@Table(name = "accounts_outbox")
+public class OutboxEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cash_outbox_id_seq")
-    @SequenceGenerator(name = "cash_outbox_id_seq", sequenceName = "cash_outbox_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "accounts_outbox_id_seq")
+    @SequenceGenerator(name = "accounts_outbox_id_seq", sequenceName = "accounts_outbox_id_seq", allocationSize = 1)
     private Long id;
 
     @NotNull(message = "type cannot be null")

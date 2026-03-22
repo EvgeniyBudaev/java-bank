@@ -1,6 +1,6 @@
-package com.cashservice.client;
+package com.accountsservice.client;
 
-import com.cashservice.service.NotificationEvent;
+import com.accountsservice.service.NotificationEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;

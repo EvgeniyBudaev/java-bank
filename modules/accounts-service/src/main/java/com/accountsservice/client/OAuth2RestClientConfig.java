@@ -1,4 +1,4 @@
-package com.cashservice.client;
+package com.accountsservice.client;
 
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
@@ -21,9 +21,9 @@ public class OAuth2RestClientConfig {
     }
 
     @Bean
-    public RestClient accountsRestClient(RestClient.Builder builder) {
+    public RestClient notificationRestClient(RestClient.Builder builder) {
         return builder
-                .baseUrl("http://accounts-service")
+                .baseUrl("http://notification-service")
                 .requestInterceptor(createTokenRelayInterceptor())
                 .build();
     }

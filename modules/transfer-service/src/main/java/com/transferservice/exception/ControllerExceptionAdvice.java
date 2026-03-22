@@ -15,7 +15,7 @@ import java.time.Instant;
 
 @RestControllerAdvice
 public class ControllerExceptionAdvice {
-    private static final String SERVICE_NAME = "cash-service";
+    private static final String SERVICE_NAME = "transfer-service";
 
     @ExceptionHandler(InsufficientFundsException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)

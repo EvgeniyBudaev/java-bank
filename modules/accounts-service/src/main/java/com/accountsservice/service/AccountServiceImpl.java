@@ -2,7 +2,9 @@ package com.accountsservice.service;
 
 import com.accountsservice.controller.dto.response.ResponseAccountDto;
 import com.accountsservice.entity.AccountEntity;
+import com.accountsservice.entity.OutboxEntity;
 import com.accountsservice.repository.AccountRepository;
+import com.accountsservice.repository.OutboxRepository;
 import com.accountsservice.service.mapper.AccountMapper;
 import com.accountsservice.exception.InsufficientFundsException;
 import com.accountsservice.exception.NotFoundException;
@@ -26,6 +28,7 @@ import java.util.stream.Collectors;
 public class AccountServiceImpl implements AccountService {
     private final AccountRepository accountRepository;
     private final AccountMapper accountMapper;
+    private final OutboxRepository outboxRepository;
 
     /**
      * Создать новый аккаунт.
@@ -81,7 +84,17 @@ public class AccountServiceImpl implements AccountService {
         account.setUpdatedAt(Instant.now());
         AccountEntity accountSaved = accountRepository.save(account);
 
-        return accountMapper.toResponseAccountDto(accountSaved);
+        ResponseAccountDto responseAccountDto = accountMapper.toResponseAccountDto(accountSaved);
+
+        // Сохраняем событие в Outbox таблицу
+        saveToOutbox(
+                NotificationType.CASH_IN,
+                amount,
+                userId,
+                Instant.now()
+        );
+
+        return responseAccountDto;
     }
 
     @Override
@@ -106,7 +119,17 @@ public class AccountServiceImpl implements AccountService {
         account.setUpdatedAt(Instant.now());
         AccountEntity accountSaved = accountRepository.save(account);
 
-        return accountMapper.toResponseAccountDto(accountSaved);
+        ResponseAccountDto responseAccountDto = accountMapper.toResponseAccountDto(accountSaved);
+
+        // Сохраняем событие в Outbox таблицу
+        saveToOutbox(
+                NotificationType.CASH_OUT,
+                amount,
+                userId,
+                Instant.now()
+        );
+
+        return responseAccountDto;
     }
 
     @Override
@@ -143,5 +166,26 @@ public class AccountServiceImpl implements AccountService {
 
         log.info("Refund successful: userId={}, amount={}", targetUserId, amount);
         return accountMapper.toResponseAccountDto(accountSaved);
+    }
+
+    /**
+     * Сохраняет событие в таблицу Outbox.
+     * Вызывается внутри @Transactional метода, поэтому сохранение происходит
+     * в той же транзакции, что и обновление баланса.
+     */
+    private void saveToOutbox(
+            NotificationType type,
+            BigDecimal amount,
+            UUID userId,
+            Instant occurredAt
+    ) {
+        OutboxEntity outbox = new OutboxEntity();
+        outbox.setType(type);
+        outbox.setUserId(userId);
+        outbox.setAmount(amount);
+        outbox.setCreatedAt(occurredAt);
+        outbox.setProcessed(false);
+        outboxRepository.save(outbox);
+        log.info("Saved outbox event: type={}, userId={}, amount={}", type, userId, amount);
     }
 }

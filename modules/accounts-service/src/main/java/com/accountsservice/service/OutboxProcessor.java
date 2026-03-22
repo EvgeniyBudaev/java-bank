@@ -1,8 +1,8 @@
-package com.cashservice.service;
+package com.accountsservice.service;
 
-import com.cashservice.client.NotificationClient;
-import com.cashservice.entity.CashOutboxEntity;
-import com.cashservice.repository.OutboxRepository;
+import com.accountsservice.client.NotificationClient;
+import com.accountsservice.entity.OutboxEntity;
+import com.accountsservice.repository.OutboxRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,7 +34,7 @@ public class OutboxProcessor {
     @Transactional
     public void processOutbox() {
         // Получаем ТОЛЬКО необработанные записи
-        List<CashOutboxEntity> outboxEntries = outboxRepository.findByProcessedFalseOrderByCreatedAtAsc(
+        List<OutboxEntity> outboxEntries = outboxRepository.findByProcessedFalseOrderByCreatedAtAsc(
                 Pageable.ofSize(limit)
         );
 
@@ -43,7 +43,7 @@ public class OutboxProcessor {
             return;
         }
 
-        for (CashOutboxEntity entry : outboxEntries) {
+        for (OutboxEntity entry : outboxEntries) {
             try {
                 String token = tokenProvider.getServiceToken();
                 String idempotencyKey = String.valueOf(entry.getId());

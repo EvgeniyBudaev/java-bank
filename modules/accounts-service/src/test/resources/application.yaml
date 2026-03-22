@@ -1,6 +1,8 @@
 spring:
   application:
     name: accounts-service
+    outbox:
+      limit: 10
   config:
     import: "optional:consul:"
   cloud:
@@ -36,9 +38,21 @@ spring:
     baseline-on-migrate: true
   security:
     oauth2:
+      client:
+        registration:
+          cash-service:
+            client-id: test-client
+            client-secret: test-secret
+            authorization-grant-type: client_credentials
+            scope: openid
+        provider:
+          accounts-service:
+            issuer-uri: http://localhost:8080/realms/gravity
+            token-uri: http://localhost:8080/realms/gravity/protocol/openid-connect/token
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:8080/realms/myrealm
+          issuer-uri: http://localhost:8080/realms/gravity
+          jwk-set-uri: http://localhost:8080/realms/gravity/protocol/openid-connect/certs
 
 server:
   port: 8083

@@ -1,4 +1,4 @@
-package com.cashservice.service;
+package com.accountsservice.service;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
