@@ -2,14 +2,26 @@ version: "3.8"
 
 services:
   notification-service:
-    build: .
-    ports:
-      - "${NOTIFICATION_SERVICE_PORT}:${NOTIFICATION_SERVICE_PORT}"
+    container_name: notification-service
+    hostname: notification-service
+    networks:
+      - web-network
+    build:
+      context: .
+    restart: always
+    expose:
+      - 8085
     environment:
-      NOTIFICATION_SERVICE_PORT: ${NOTIFICATION_SERVICE_PORT}
-      NOTIFICATION_SERVICE_LOGGER_LEVEL: ${NOTIFICATION_SERVICE_LOGGER_LEVEL}
-      KEYCLOAK_REALM: ${KEYCLOAK_REALM}
-      KEYCLOAK_BASE_URL: ${KEYCLOAK_BASE_URL}
-      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
-      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
-      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+      NOTIFICATION_SERVICE_PORT: 8085
+      NOTIFICATION_SERVICE_LOGGER_LEVEL: INFO
+      KEYCLOAK_REALM: gravity
+      KEYCLOAK_BASE_URL: http://keycloak:8080
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/postgres
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: root
+      CONSUL_HOST: consul
+      CONSUL_PORT: 8500
+
+networks:
+  web-network:
+    external: true

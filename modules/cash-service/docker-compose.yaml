@@ -2,13 +2,27 @@ version: "3.8"
 
 services:
   cash-service:
-    build: .
-    ports:
-      - "${CASH_SERVICE_PORT}:${CASH_SERVICE_PORT}"
+    container_name: cash-service
+    hostname: cash-service
+    networks:
+      - web-network
+    build:
+      context: .
+    restart: always
+    expose:
+      - 8086
+#    ports:
+#      - "8086:8086"
     environment:
-      CASH_SERVICE_PORT: ${CASH_SERVICE_PORT}
-      CASH_SERVICE_LOGGER_LEVEL: ${CASH_SERVICE_LOGGER_LEVEL}
-      KEYCLOAK_REALM: ${KEYCLOAK_REALM}
-      KEYCLOAK_BASE_URL: ${KEYCLOAK_BASE_URL}
-      KEYCLOAK_CLIENT_ID: ${KEYCLOAK_CLIENT_ID}
-      KEYCLOAK_CLIENT_SECRET: ${KEYCLOAK_CLIENT_SECRET}
+      CASH_SERVICE_PORT: 8086
+      CASH_SERVICE_LOGGER_LEVEL: INFO
+      KEYCLOAK_REALM: gravity
+      KEYCLOAK_BASE_URL: http://keycloak:8080
+      KEYCLOAK_CLIENT_ID: cash-service
+      KEYCLOAK_CLIENT_SECRET: PnYMUGvIKmQZhB48g5ywsB0Crcw1Yj62
+      CONSUL_HOST: consul
+      CONSUL_PORT: 8500
+
+networks:
+  web-network:
+    external: true

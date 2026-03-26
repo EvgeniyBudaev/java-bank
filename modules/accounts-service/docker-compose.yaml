@@ -2,16 +2,30 @@ version: "3.8"
 
 services:
   accounts-service:
-    build: .
+    container_name: accounts-service
+    hostname: accounts-service
+    networks:
+      - web-network
+    build:
+      context: .
+    restart: always
+#    expose:
+#      - 8083
     ports:
-      - "${ACCOUNTS_SERVICE_PORT}:${ACCOUNTS_SERVICE_PORT}"
+      - "8083:8083"
     environment:
-      ACCOUNTS_SERVICE_PORT: ${ACCOUNTS_SERVICE_PORT}
-      ACCOUNTS_SERVICE_LOGGER_LEVEL: ${ACCOUNTS_SERVICE_LOGGER_LEVEL}
-      KEYCLOAK_REALM: ${KEYCLOAK_REALM}
-      KEYCLOAK_BASE_URL: ${KEYCLOAK_BASE_URL}
-      KEYCLOAK_CLIENT_ID: ${KEYCLOAK_CLIENT_ID}
-      KEYCLOAK_CLIENT_SECRET: ${KEYCLOAK_CLIENT_SECRET}
-      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
-      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
-      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+      ACCOUNTS_SERVICE_PORT: 8083
+      ACCOUNTS_SERVICE_LOGGER_LEVEL: INFO
+      KEYCLOAK_REALM: gravity
+      KEYCLOAK_BASE_URL: http://localhost:8181
+      KEYCLOAK_CLIENT_ID: accounts-service
+      KEYCLOAK_CLIENT_SECRET: bWIHJuPOuGFbHcsTV8gFYDtIFnlhGrNe
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/postgres
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: root
+      CONSUL_HOST: consul
+      CONSUL_PORT: 8500
+
+networks:
+  web-network:
+    external: true

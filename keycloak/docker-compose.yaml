@@ -7,9 +7,9 @@ services:
     networks:
       - web-network
     build:
-      context: ./keycloak
+      context: .
     ports:
-      - "8080:8080"
+      - "127.0.0.1:8181:8080"
     environment:
       - KEYCLOAK_ADMIN=root
       - KEYCLOAK_ADMIN_PASSWORD=root

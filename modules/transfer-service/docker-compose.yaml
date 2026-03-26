@@ -2,11 +2,23 @@ version: "3.8"
 
 services:
   transfer-service:
-    build: .
-    ports:
-      - "${TRANSFER_SERVICE_PORT}:${TRANSFER_SERVICE_PORT}"
+    container_name: transfer-service
+    hostname: transfer-service
+    networks:
+      - web-network
+    build:
+      context: .
+    restart: always
+    expose:
+      - 8087
     environment:
-      TRANSFER_SERVICE_PORT: ${TRANSFER_SERVICE_PORT}
-      TRANSFER_SERVICE_LOGGER_LEVEL: ${TRANSFER_SERVICE_LOGGER_LEVEL}
-      KEYCLOAK_REALM: ${KEYCLOAK_REALM}
-      KEYCLOAK_BASE_URL: ${KEYCLOAK_BASE_URL}
+      TRANSFER_SERVICE_PORT: 8087
+      TRANSFER_SERVICE_LOGGER_LEVEL: INFO
+      KEYCLOAK_REALM: gravity
+      KEYCLOAK_BASE_URL: http://keycloak:8080
+      CONSUL_HOST: consul
+      CONSUL_PORT: 8500
+
+networks:
+  web-network:
+    external: true

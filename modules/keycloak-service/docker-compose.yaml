@@ -2,7 +2,14 @@ version: "3.8"
 
 services:
   keycloak-service:
-    build: .
+    container_name: keycloak-service
+    hostname: keycloak-service
+    networks:
+      - web-network
+    build:
+      context: ./app
+      target: keycloak-service
+    restart: always
     ports:
       - "${KEYCLOAK_SERVICE_PORT}:${KEYCLOAK_SERVICE_PORT}"
     environment:
@@ -16,3 +23,7 @@ services:
       KEYCLOAK_DEFAULT_USER_GROUP: ${KEYCLOAK_DEFAULT_USER_GROUP}
       KEYCLOAK_DEFAULT_USER_ROLE: ${KEYCLOAK_DEFAULT_USER_ROLE}
       KEYCLOAK_DEFAULT_USER_ROLE_TYPE: ${KEYCLOAK_DEFAULT_USER_ROLE_TYPE}
+
+networks:
+  web-network:
+    external: true

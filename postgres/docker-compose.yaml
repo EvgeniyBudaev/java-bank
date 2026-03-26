@@ -1,0 +1,37 @@
+version: "3.8"
+
+services:
+  postgres:
+    container_name: postgres
+    image: postgis/postgis:16-3.4-alpine
+    networks:
+      - web-network
+    expose:
+      - 5432
+    restart: always
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    deploy:
+      mode: replicated
+      replicas: 1
+    command: postgres -c shared_preload_libraries=pg_stat_statements -c pg_stat_statements.track=all -c max_connections=200
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=postgres
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_NAME=postgres
+      - POSTGRES_SSLMODE=disable
+    volumes:
+      - pgdata:/var/lib/postgresql/data/
+
+networks:
+  web-network:
+    external: true
+
+volumes:
+  pgdata:

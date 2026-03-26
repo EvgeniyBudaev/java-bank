@@ -2,7 +2,14 @@ version: "3.8"
 
 services:
   consul:
+    container_name: consul
+    hostname: consul
     image: consul:1.1.0
-    hostname: localhost
+    networks:
+      - web-network
     ports:
-      - 8500:8500
+      - "8500:8500"
+
+networks:
+  web-network:
+    external: true
