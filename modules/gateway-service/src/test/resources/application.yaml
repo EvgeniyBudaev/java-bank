@@ -20,7 +20,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:8080/realms/myrealm
+          issuer-uri: http://localhost:8181/realms/myrealm
 
 server:
   port: 8082
@@ -32,7 +32,7 @@ logging:
 app:
   keycloak:
     realm: gravity
-    serverUrl: http://localhost:8080
+    serverUrl: http://localhost:8181
 
 management:
   endpoints:

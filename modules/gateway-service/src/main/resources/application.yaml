@@ -41,6 +41,10 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: ${app.keycloak.serverUrl}/realms/${app.keycloak.realm}
+      client:
+        provider:
+          keycloak:
+            issuer-uri: ${app.keycloak.serverUrl}/realms/${app.keycloak.realm}
 
 server:
   port: ${GATEWAY_SERVICE_PORT}

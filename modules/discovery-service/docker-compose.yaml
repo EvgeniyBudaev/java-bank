@@ -7,14 +7,11 @@ services:
     networks:
       - web-network
     build:
-      context: ./app
-      target: discovery-service
+      context: .
     restart: always
-    ports:
-      - "${DISCOVERY_SERVICE_PORT}:${DISCOVERY_SERVICE_PORT}"
     environment:
-      DISCOVERY_SERVICE_PORT: ${DISCOVERY_SERVICE_PORT}
-      DISCOVERY_SERVICE_LOGGER_LEVEL: ${DISCOVERY_SERVICE_LOGGER_LEVEL}
+      DISCOVERY_SERVICE_PORT: 8084
+      DISCOVERY_SERVICE_LOGGER_LEVEL: INFO
 
 networks:
   web-network:

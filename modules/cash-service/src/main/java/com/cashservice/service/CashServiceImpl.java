@@ -25,7 +25,6 @@ public class CashServiceImpl implements CashService {
 
     /**
      * Пополнить счет.
-     * В рамках одной транзакции: обновляем баланс + сохраняем событие в Outbox.
      */
     @Override
     public ResponseAccountDto deposit(RequestCashOperationDto dto) {

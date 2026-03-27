@@ -40,19 +40,19 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:8080/realms/gravity
+          issuer-uri: http://localhost:8181/realms/gravity
       client:
         provider:
           keycloak:
-            issuer-uri: http://localhost:8080/realms/gravity
-            token-uri: http://localhost:8080/realms/gravity/protocol/openid-connect/token
+            issuer-uri: http://localhost:8181/realms/gravity
+            token-uri: http://localhost:8181/realms/gravity/protocol/openid-connect/token
         registration:
           accounts-service:
             provider: keycloak
             client-id: test-client
             client-secret: test-secret
             authorization-grant-type: client_credentials
-            scope: openid
+            scope: openid,accounts.read,accounts.write,notifications.write,cash.write,transfer.write
 
 server:
   port: 8083
@@ -64,7 +64,7 @@ logging:
 app:
   keycloak:
     realm: gravity
-    serverUrl: http://localhost:8080
+    serverUrl: http://localhost:8181
 
 management:
   endpoints:

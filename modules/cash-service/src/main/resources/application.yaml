@@ -18,17 +18,6 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: ${app.keycloak.serverUrl}/realms/${app.keycloak.realm}
-      client:
-        provider:
-          cash-service:
-            issuer-uri: ${app.keycloak.serverUrl}/realms/${app.keycloak.realm}
-            token-uri: ${app.keycloak.serverUrl}/realms/${app.keycloak.realm}/protocol/openid-connect/token
-        registration:
-          cash-service:
-            client-id: ${KEYCLOAK_CLIENT_ID}
-            client-secret: ${KEYCLOAK_CLIENT_SECRET}
-            authorization-grant-type: client_credentials
-            scope: openid
 
 server:
   port: ${CASH_SERVICE_PORT}
