@@ -15,7 +15,8 @@ services:
       TRANSFER_SERVICE_PORT: 8087
       TRANSFER_SERVICE_LOGGER_LEVEL: INFO
       KEYCLOAK_REALM: gravity
-      KEYCLOAK_BASE_URL: http://keycloak:8080
+      KEYCLOAK_EXTERNAL_URL: http://localhost:8181
+      KEYCLOAK_INTERNAL_URL: http://keycloak:8080
       CONSUL_HOST: consul
       CONSUL_PORT: 8500
 

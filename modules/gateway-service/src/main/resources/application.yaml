@@ -40,11 +40,17 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: ${app.keycloak.serverUrl}/realms/${app.keycloak.realm}
+          issuer-uri: ${app.keycloak.externalUrl}/realms/${app.keycloak.realm}
+          jwk-set-uri: ${app.keycloak.internalUrl}/realms/${app.keycloak.realm}/protocol/openid-connect/certs
       client:
         provider:
           keycloak:
-            issuer-uri: ${app.keycloak.serverUrl}/realms/${app.keycloak.realm}
+#            issuer-uri: ${app.keycloak.externalUrl}/realms/${app.keycloak.realm}
+            token-uri: ${app.keycloak.internalUrl}/realms/${app.keycloak.realm}/protocol/openid-connect/token
+            authorization-uri: ${app.keycloak.externalUrl}/realms/${app.keycloak.realm}/protocol/openid-connect/auth
+            user-info-uri: ${app.keycloak.internalUrl}/realms/${app.keycloak.realm}/protocol/openid-connect/userinfo
+            jwk-set-uri: ${app.keycloak.internalUrl}/realms/${app.keycloak.realm}/protocol/openid-connect/certs
+            user-name-attribute: preferred_username
 
 server:
   port: ${GATEWAY_SERVICE_PORT}
@@ -56,7 +62,8 @@ logging:
 app:
   keycloak:
     realm: ${KEYCLOAK_REALM}
-    serverUrl: ${KEYCLOAK_BASE_URL}
+    externalUrl: ${KEYCLOAK_EXTERNAL_URL}
+    internalUrl: ${KEYCLOAK_INTERNAL_URL}
 
 management:
   endpoints:

@@ -13,7 +13,8 @@ services:
       CASH_SERVICE_PORT: 8086
       CASH_SERVICE_LOGGER_LEVEL: INFO
       KEYCLOAK_REALM: gravity
-      KEYCLOAK_BASE_URL: http://keycloak:8080
+      KEYCLOAK_EXTERNAL_URL: http://localhost:8181
+      KEYCLOAK_INTERNAL_URL: http://keycloak:8080
       KEYCLOAK_CLIENT_ID: cash-service
       KEYCLOAK_CLIENT_SECRET: PnYMUGvIKmQZhB48g5ywsB0Crcw1Yj62
       CONSUL_HOST: consul

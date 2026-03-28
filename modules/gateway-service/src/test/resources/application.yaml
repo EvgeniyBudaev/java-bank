@@ -21,6 +21,15 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: http://localhost:8181/realms/myrealm
+          jwk-set-uri: http://keycloak:8080/realms/myrealm/protocol/openid-connect/certs
+      client:
+        provider:
+          keycloak:
+            token-uri: http://keycloak:8080/realms/myrealm/protocol/openid-connect/token
+            authorization-uri: http://localhost:8181/realms/myrealm/protocol/openid-connect/auth
+            user-info-uri: http://keycloak:8080/realms/myrealm/protocol/openid-connect/userinfo
+            jwk-set-uri: http://keycloak:8080/realms/myrealm/protocol/openid-connect/certs
+            user-name-attribute: preferred_username
 
 server:
   port: 8082
@@ -32,7 +41,8 @@ logging:
 app:
   keycloak:
     realm: gravity
-    serverUrl: http://localhost:8181
+    externalUrl: http://localhost:8181
+    internalUrl: http://keycloak:8080
 
 management:
   endpoints:
